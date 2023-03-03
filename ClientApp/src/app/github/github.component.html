@@ -1,0 +1,23 @@
+<h1 id="tableLabel">List Of GitHub Repo</h1>
+
+<p *ngIf="!repos?.length"><em>Loading...</em></p>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="repos.length">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Url</th>
+      <th>Owner</th>
+      <th>Id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let repo of repos">
+      <td>{{ repo.name }}</td>
+      <td><a href="{{ repo.html_url}}" target="_blank">{{repo.html_url}}</a></td>
+      <td>{{ repo.owner.login }}</td>
+      <td>{{ repo.id }}</td>
+    </tr>
+  </tbody>
+</table>
+
