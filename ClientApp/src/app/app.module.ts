@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { GithubComponent } from './github/github.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { GithubComponent } from './github/github.component';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    GithubComponent
+    GithubComponent,
+    FileUploadComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -29,6 +31,7 @@ import { GithubComponent } from './github/github.component';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'github-repo', component: GithubComponent },
+      { path: 'file', component: FileUploadComponent },
     ])
   ],
   providers: [],
