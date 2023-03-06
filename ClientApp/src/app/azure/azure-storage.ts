@@ -11,7 +11,7 @@ const account = environment.azure.blob.account;
 const accountKey = environment.azure.blob.SAS;
 // BlobClientServiceString
 const blobServiceClient = new BlobServiceClient(`https://${account}.blob.core.windows.net${accountKey}`);
-const blobUrl = `https://${account}.blob.core.windows.net/bgblob/BLOBNAME${accountKey}`;
+const blobUrl = `https://${account}.blob.core.windows.net/bgblob/BLOBNAME${environment.azure.blob.SASReadOnly}`;
 
 //BlobEndpoint=https://storagesample.blob.core.windows.net;
 //SharedAccessSignature=sv=2015-04-05&amp;sr=b&amp;si=tutorial-policy-635959936145100803&amp;sig=9aCzs76n0E7y5BpEi2GvsSv433BZa22leDOZXX%2BXXIU%3D
