@@ -1,0 +1,27 @@
+.blob-list .item-download{
+  float: right;
+  background-color: rgb(225, 241, 243);
+  margin: 0em 1em 1em 1em;
+}
+
+.blob-list .item-remove{
+  float: right;
+  background-color: rgb(176, 169, 169);
+
+}
+
+.center {
+  text-align: center;
+}
+
+.btn-refresh{
+  margin: 1em 1em 1em 1em;
+}
+
+.upload {
+  margin: 1em 1em 1em 1em;
+}
+
+.upload .btn {
+  margin: 0em 1em 0em 0em;
+}

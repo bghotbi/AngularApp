@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { BlobServiceClient, AnonymousCredential, newPipeline } from "@azure/storage-blob";
 import { getContainers, deleteContainer, createContainer, listBlobs, BLOBItem, CONTENT, uploadFile, deleteBlob } from '../azure/azure-storage';
 
 
@@ -15,6 +14,8 @@ export class FileUploadComponent implements OnInit {
   selectedContainer: string = 'bgblob';
   listItems: BLOBItem[] = [];
   files: any= [];
+  inputEvent: any;
+
 
   constructor() { }
 
@@ -69,6 +70,7 @@ export class FileUploadComponent implements OnInit {
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
+    this.inputEvent = event;
   }
 
   onSubmit(event: any) {
@@ -84,6 +86,7 @@ export class FileUploadComponent implements OnInit {
         console.log("Success!");
         let newItem = {name: content.filename} as BLOBItem;
         this.listItems.push(newItem);
+        this.inputEvent.target.value = "";
       }).catch((e) => {
         console.log("Failed!" + e);
       })

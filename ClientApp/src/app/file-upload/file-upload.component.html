@@ -1,17 +1,36 @@
-<p>Azure Blob</p>
+<div class="container">
+  <div class="row">
+    <h1 class="col center">Azure Blob storage</h1>
+  </div>
+  <div class="row">
+    <div class="col upload ">
+      <form (submit)="onSubmit($event)">
+        <input class="btn   btn-outline-secondary" type="file" (change)="onFileSelected($event)" />
+        <button class="btn  btn-outline-dark " type="submit">Upload</button>
+      </form>
+    </div>
+    <button class="col-sm-1 btn-refresh  btn btn-secondary" (click)="listFiles('bgblob')">Refresh</button>
+  </div>
+</div>
 
-<button (click)="listFiles('bgblob')">List Files</button>
-<h2>List Files</h2>
-<ul>
-  <li *ngFor="let item of listItems">{{item.name}} <button (click)="delete(item.name)">delete</button></li>
-</ul>
 
-<!-- <button (click)="getContainers()">List Container</button>
-<ul>
-  <li *ngFor="let container of containers" (click)="listFiles(container)">{{container}}<button (click)="deleteContainer(container)">delete</button></li>
-</ul> -->
+<table class='blob-list table table-hover' aria-labelledby="tableLabel" *ngIf="listItems.length">
+  <thead>
+    <tr>
+      <th class="col-7">Name</th>
+      <th>Modified</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of listItems">
+      <td>{{ item.name }}</td>
+      <td>{{item.properties.lastModified | date}} </td>
+      <td>{{item.properties.blobType}} </td>
+      <a class="btn btn-light item-download"  href={{item.url}} target="_blank">Download</a>
+      <button class="btn btn-secondary item-remove" (click)="delete(item.name)">Delete</button>
+    </tr>
+  </tbody>
+</table>
 
-<form (submit)="onSubmit($event)">
-  <input type="file" (change)="onFileSelected($event)" />
-  <button type="submit">Upload</button>
-</form>
+

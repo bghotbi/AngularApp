@@ -11,6 +11,7 @@ const account = environment.azure.blob.account;
 const accountKey = environment.azure.blob.SAS;
 // BlobClientServiceString
 const blobServiceClient = new BlobServiceClient(`https://${account}.blob.core.windows.net${accountKey}`);
+const blobUrl = `https://${account}.blob.core.windows.net/bgblob/BLOBNAME${accountKey}`;
 
 //BlobEndpoint=https://storagesample.blob.core.windows.net;
 //SharedAccessSignature=sv=2015-04-05&amp;sr=b&amp;si=tutorial-policy-635959936145100803&amp;sig=9aCzs76n0E7y5BpEi2GvsSv433BZa22leDOZXX%2BXXIU%3D
@@ -26,7 +27,9 @@ const blobServiceClient = new BlobServiceClient(`https://${account}.blob.core.wi
 // const blobServiceClient = new BlobServiceClient(environment.azure.blob.sasUrl,pipeline);
 
 
-export interface BLOBItem extends BlobItem { };
+export interface BLOBItem extends BlobItem {
+  url: string
+};
 export interface CONTENT {
   containerName: string; // desired container name
   file: File;  // file to upload
@@ -57,13 +60,17 @@ export async function createContainer(containername:any) {
   }
 }
 
+function getBlobUrl(name: string) {
+   return blobUrl.replace("BLOBNAME", name);
+}
 
-export async function listBlobs(containerName: string): Promise<BlobItem[]> {
+export async function listBlobs(containerName: string): Promise<BLOBItem[]> {
   try {
     const blobItems = [];
     const containerClient = blobServiceClient.getContainerClient(containerName);
     for await (const blob of containerClient.listBlobsFlat()) {
-      blobItems.push(blob);
+      let newItem = {...blob, url: getBlobUrl(blob.name) } as BLOBItem;
+      blobItems.push(newItem);
     }
     return blobItems;
 
