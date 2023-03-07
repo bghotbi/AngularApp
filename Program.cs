@@ -1,18 +1,23 @@
+using System.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
+ var config = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json", optional: false)
+        .Build();
 
 builder.Services.AddControllersWithViews();
 
-// builder.Services.AddCors(options =>
-//     {
-//         options.AddPolicy("AllowAllOrigins",
-//             builder =>
-//             {
-//                 // builder.AllowAnyOrigin();
-//                 builder.WithOrigins("https://bgangularstorage.blob.core.windows.net");
-//             });
-//     });
+builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AllowAllOrigins",
+            builder =>
+            {
+                //  builder.AllowAnyOrigin();
+                builder.WithOrigins(config["AllowAllOrigins"] ?? "https://localhost:44449");
+            });
+    });
 
 var app = builder.Build();
 
@@ -26,7 +31,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-// app.UseCors("AllowAllOrigins");
+app.UseCors("AllowAllOrigins");
 
 
 app.MapControllerRoute(
