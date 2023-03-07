@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { getContainers, deleteContainer, createContainer, listBlobs, BLOBItem, CONTENT, uploadFile, deleteBlob } from '../azure/azure-storage';
-
+import {AzureStorageService, BLOBItem, CONTENT} from '../azure/azure.storage.service'
 
 @Component({
   selector: 'app-file-upload',
@@ -17,20 +16,20 @@ export class FileUploadComponent implements OnInit {
   inputEvent: any;
 
 
-  constructor() { }
+  constructor(private azureService: AzureStorageService) { }
 
   ngOnInit(): void {
      this.listFiles(this.selectedContainer);
   }
 
   async getContainers() {
-    getContainers().then((res: Array<string>) => {
+    this.azureService.getContainers().then((res: Array<string>) => {
       this.containers = res;
     })
   }
 
   delete(value: string) {
-    deleteBlob(this.selectedContainer, value).then((resp: string) => {
+    this.azureService.deleteBlob(this.selectedContainer, value).then((resp: string) => {
       this.listItems = this.listItems.filter(file => file.name !== value);
       console.log(resp);
     });
@@ -38,14 +37,14 @@ export class FileUploadComponent implements OnInit {
 
   async listFiles(containerName: string) {
     this.selectedContainer = containerName;
-    listBlobs(containerName).then((res: Array<BLOBItem>) => {
+    this.azureService.listBlobs(containerName).then((res: Array<BLOBItem>) => {
       this.listItems = res;
       console.log(res);
     })
   }
 
   deleteContainer(value: string) {
-    deleteContainer(value).then((resp: string) => {
+    this.azureService.deleteContainer(value).then((resp: string) => {
       console.log(resp);
     });
   }
@@ -59,7 +58,7 @@ export class FileUploadComponent implements OnInit {
           file: file,
           filename: `temp-${Date.now()}.${file.name.split('.')[1]}`
         };
-        uploadFile(content).then(() => {
+        this.azureService.uploadFile(content).then(() => {
           console.log("Success!");
         }).catch((e) => {
           console.log("Failed!" + e);
@@ -82,7 +81,7 @@ export class FileUploadComponent implements OnInit {
         file: this.selectedFile,
         filename: this.selectedFile.name
       };
-      uploadFile(content).then(() => {
+      this.azureService.uploadFile(content).then(() => {
         console.log("Success!");
         let newItem = {name: content.filename} as BLOBItem;
         this.listItems.push(newItem);
