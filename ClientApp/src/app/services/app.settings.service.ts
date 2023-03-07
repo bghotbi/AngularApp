@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ export class AppSettingsService {
   constructor(private http: HttpClient) { }
 
   loadAppSettings() {
-    return this.http.get('https://localhost:7088/appsetting').subscribe(data => {
+    var url = environment.production ? "/appsetting" : "https://localhost:7088/appsetting";
+    return this.http.get(url).subscribe(data => {
       this.appSettings = data;
     });
   }
